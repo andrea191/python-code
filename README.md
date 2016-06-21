@@ -1,4 +1,4 @@
-# Simple python scripts
+#Python scripts
 
 ##RedisPubSub 
 Using redis
