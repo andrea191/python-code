@@ -2,6 +2,9 @@ import redis
 import time
 import datetime
 
+#Subscribed to the keyevent expired.
+#Any sensor will expire, the controller will remove it from the ONLINE list
+#So the LWM2M can create and delete the IPSO Object instance
 
 pool = redis.ConnectionPool(host='localhost', port=6379, db=0)
 r = redis.Redis(connection_pool=pool)
@@ -9,28 +12,11 @@ i=0
 
 #Type of sensors
 sensorList = 'sensor:type'
-'''
-temperatureSensor = 'temperature'
-accelerometerSensor = 'accelerometer'
 
-#Temperature sensors '''
+#Temperature sensors
 temperatureList = 'sensor:temperature'
 
-'''
-#The sensor
-temperatureKey = 'temperature:TEMP0000'
-
-#LWM2M checks if the sensor exist, and create the instance. 
-#If doesn't exist anymore, the instance will be deleted.
-r.sadd(temperatureList, temperatureSerial) 
-
-#If no fetch for more than 2 seconds, the sensor is dead.
-#Then removed, and another process will delete the sensor from 
-#temperatureList set. So, the LWM2M will be updated.
-r.setex(temperatureSerialIdKey, )
-'''
 pubsub = r.pubsub()
-
 pubsub.psubscribe('__keyevent@0__:expired')
 
 print 'Sensor List' + str(r.smembers(sensorList))
